@@ -1,0 +1,53 @@
+## Type I: At most one transaction is allowed
+
+Given an array prices[] of length N, representing the prices of the stocks on different days, the task is to find the maximum profit possible for buying and selling 
+the stocks on different days using transactions where at most one transaction is allowed.
+
+Note: Stock must be bought before being sold.
+
+Examples:
+
+Input: prices[] = {7, 1, 5, 3, 6, 4]
+Output: 5
+
+Explanation:
+The lowest price of the stock is on the 2nd day, i.e. price = 1. Starting from the 2nd day, the highest price of the stock is witnessed on the 5th day, i.e. price = 6. 
+Therefore, maximum possible profit = 6 – 1 = 5. 
+
+Input: prices[] = {7, 6, 4, 3, 1} 
+Output: 0
+Explanation: Since the array is in decreasing order, no possible way exists to solve the problem
+
+leetcode_solution_1 :
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        purchase = prices[0]
+        sell = purchase
+        profit = 0
+
+        for price in prices:
+            if price > sell:
+                sell = price
+                profit = max(sell - purchase, profit)
+            if price < purchase:
+                purchase = price
+                sell = price
+
+        return profit
+
+
+
+leetcode_solution_2 :
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        minvalue = prices[0]
+        maxprofit = 0
+        
+        for i in range(1,len(prices)):
+            if prices[i] < minvalue :
+                minvalue = prices[i]
+            elif prices[i] - minvalue  > maxprofit :
+                maxprofit = prices[i] - minvalue
+        return maxprofit            
